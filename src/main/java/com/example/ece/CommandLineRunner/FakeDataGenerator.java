@@ -1,8 +1,7 @@
-package com.example.ece;
+package com.example.ece.CommandLineRunner;
 
 import com.example.ece.entity.Product;
 import com.example.ece.repository.ProductRepository;
-import lombok.AllArgsConstructor;
 import net.datafaker.Faker;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
