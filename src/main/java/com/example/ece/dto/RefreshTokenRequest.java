@@ -1,14 +1,12 @@
 package com.example.ece.dto;
 
-
-import lombok.AllArgsConstructor;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
-public class AuthResponse {
-    private String accessToken;
+public class RefreshTokenRequest {
+    @NotBlank
     private String refreshToken;
 }

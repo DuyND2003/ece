@@ -14,19 +14,19 @@ import java.util.Date;
 public class JwtService {
 
     private static final String SECRET_KEY = "213123123123jkhfkfhdfhdhfoshofshdoifhdsiodfdfdsf2342423242";
-    private static final long EXPIRATION_TIME = 1000 * 60 * 60 * 24;
+    private static final long ACESS_TOKEN_EXPIRATION = 1000 * 60 * 15;
 
     private SecretKey getSigningKey() {
         byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String generateToken(User user) {
+    public String generateAccessToken(User user) {
         return Jwts.builder()
                 .subject(user.getEmail())
                 .claim("role", user.getRole().name())
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .expiration(new Date(System.currentTimeMillis() + ACESS_TOKEN_EXPIRATION))
                 .signWith(getSigningKey())
                 .compact();
     }

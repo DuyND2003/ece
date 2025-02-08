@@ -2,8 +2,10 @@ package com.example.ece.controller;
 
 import com.example.ece.dto.AuthResponse;
 import com.example.ece.dto.LoginRequest;
+import com.example.ece.dto.RefreshTokenRequest;
 import com.example.ece.dto.RegisterRequest;
 import com.example.ece.service.AuthService;
+import com.example.ece.service.RefreshTokenService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -25,5 +27,16 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest loginRequest){
         return ResponseEntity.ok(authService.login(loginRequest));
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<AuthResponse> refreshToken(@Valid @RequestBody RefreshTokenRequest request){
+        return ResponseEntity.ok(authService.refreshToken(request));
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(@Valid @RequestBody RefreshTokenRequest request){
+        authService.logout(request.getRefreshToken());
+        return ResponseEntity.ok("Logout successful");
     }
 }
