@@ -34,14 +34,24 @@ dependencies {
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("com.mysql:mysql-connector-j")
 	annotationProcessor("org.projectlombok:lombok")
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	testImplementation("org.springframework.security:spring-security-test")
-	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+	// JSON Web Token (JWT)
 	implementation("io.jsonwebtoken:jjwt-api:0.12.6")
 	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.6")
 	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.6")
-	implementation ("net.datafaker:datafaker:2.4.2")
 
+	// Data Faker
+	implementation("net.datafaker:datafaker:2.4.2")
+
+	// Spring Boot Test (bao gồm JUnit 5 và Mockito)
+	testImplementation("org.springframework.boot:spring-boot-starter-test") {
+		exclude(module = "junit")
+	}
+	testImplementation("org.springframework.security:spring-security-test")
+
+	// Mockito
+	testImplementation("org.mockito:mockito-core:5.2.0")
+	testImplementation("org.mockito:mockito-junit-jupiter:5.2.0")
 }
 
 tasks.withType<Test> {
