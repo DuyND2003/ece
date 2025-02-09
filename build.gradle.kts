@@ -32,7 +32,7 @@ dependencies {
 	implementation("org.springframework.session:spring-session-core")
 	compileOnly("org.projectlombok:lombok")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
-	runtimeOnly("com.mysql:mysql-connector-j")
+	implementation ("mysql:mysql-connector-java:8.0.33")
 	annotationProcessor("org.projectlombok:lombok")
 
 	// JSON Web Token (JWT)
@@ -52,6 +52,12 @@ dependencies {
 	// Mockito
 	testImplementation("org.mockito:mockito-core:5.2.0")
 	testImplementation("org.mockito:mockito-junit-jupiter:5.2.0")
+
+	// Redis
+	implementation ("org.springframework.boot:spring-boot-starter-data-redis")
+	implementation ("org.springframework.boot:spring-boot-starter-cache")
+
+
 }
 
 tasks.withType<Test> {

@@ -3,6 +3,8 @@ package com.example.ece.service;
 import com.example.ece.entity.Product;
 import com.example.ece.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -16,23 +18,32 @@ import java.util.List;
 public class ProductService {
     private final ProductRepository productRepository;
 
-    public Page<Product> getProducts(int page, int size){
+    @Cacheable(value = "products", key = "#page")
+    public Page<Product> getProducts(int page, int size) {
+        System.out.println("Fetching products from DB...");
         return productRepository.findAll(PageRequest.of(page, size));
     }
-    public List<Product> getAllProducts(){
+
+    @Cacheable(value = "allProducts")
+    public List<Product> getAllProducts() {
+        System.out.println("Fetching all products from DB...");
         return productRepository.findAll();
     }
 
-    public Product getProductById(Long id){
+    @Cacheable(value = "product", key = "#id")
+    public Product getProductById(Long id) {
+        System.out.println("Fetching product from DB...");
         return productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
     }
 
-    public Product createProduct(Product product){
+    @CacheEvict(value = {"products", "allProducts"}, allEntries = true)
+    public Product createProduct(Product product) {
         return productRepository.save(product);
     }
 
-    public Product updateProduct(Long id, Product product){
+    @CacheEvict(value = {"products", "allProducts", "product"}, allEntries = true)
+    public Product updateProduct(Long id, Product product) {
         Product existingProduct = getProductById(id);
         existingProduct.setName(product.getName());
         existingProduct.setDescription(product.getDescription());
@@ -42,7 +53,8 @@ public class ProductService {
         return productRepository.save(existingProduct);
     }
 
-    public void deleteProduct(Long id){
+    @CacheEvict(value = {"products", "allProducts", "product"}, allEntries = true)
+    public void deleteProduct(Long id) {
         productRepository.deleteById(id);
     }
 }
