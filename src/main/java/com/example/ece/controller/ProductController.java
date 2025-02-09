@@ -1,5 +1,6 @@
 package com.example.ece.controller;
 
+import com.example.ece.entity.Category;
 import com.example.ece.entity.Product;
 import com.example.ece.repository.ProductRepository;
 import com.example.ece.service.ProductService;
@@ -72,5 +73,12 @@ public class ProductController {
         response.put("previous", productPage.isFirst() ? null : baseUrl + (page - 1) + "&size=" + size);
         response.put("next", productPage.isLast() ? null : baseUrl + (page + 1) + "&size=" + size);
         return ResponseEntity.ok((response));
+    }
+
+    @GetMapping("/category/{category}")
+    public ResponseEntity<List<Product>> getProductByCategory(@PathVariable String category){
+        Category categoryEnum = Category.valueOf(category.toUpperCase()); // String -> Enum
+        List<Product> products = productRepository.findByCategory(categoryEnum);
+        return ResponseEntity.ok(products);
     }
 }

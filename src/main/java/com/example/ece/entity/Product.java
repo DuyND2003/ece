@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -31,4 +32,16 @@ public class Product {
 
     @Column(nullable = false)
     private int stockQuantity;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Category category;
+
+    private LocalDateTime publishedTime;
+
+    @PrePersist // Tu dong gan khi khoi tao
+    protected void onCreate(){
+        this.publishedTime = LocalDateTime.now();
+    }
+
 }
